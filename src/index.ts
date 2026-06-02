@@ -4,6 +4,10 @@ import ElCrud from './components/ElCrud.vue'
 // 导出组件
 export { ElCrud }
 
+// 导出组合式函数
+export { useCrud } from './composables'
+export type { UseCrudOptions } from './composables'
+
 // 导出类型
 export type {
   CrudColumn,
