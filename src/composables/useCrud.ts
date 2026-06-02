@@ -1,4 +1,4 @@
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useTable } from './useTable'
 import { useSearch } from './useSearch'
@@ -11,7 +11,6 @@ import type {
   DialogConfig,
   PaginationConfig,
   ToolbarConfig,
-  DialogMode,
 } from '../types'
 
 export interface UseCrudOptions {
@@ -38,9 +37,7 @@ export function useCrud(options: UseCrudOptions) {
     columns,
     api,
     search: searchConfig,
-    dialog: dialogConfig,
     pagination: paginationConfig,
-    toolbar: toolbarConfig,
     keyField = 'id',
     immediate = true,
   } = options

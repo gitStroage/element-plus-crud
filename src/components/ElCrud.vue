@@ -325,5 +325,6 @@ defineExpose<CrudExposed>({
   setTableData: (data: any[]) => {
     tableData.value = data
   },
+  pageSize: currentPageSize,
 })
 </script>

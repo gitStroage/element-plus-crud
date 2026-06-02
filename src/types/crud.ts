@@ -1,3 +1,4 @@
+import type { Ref } from 'vue'
 import type { CrudColumns } from './column'
 import type { SearchConfig } from './search'
 import type { DialogConfig } from './dialog'
@@ -167,4 +168,6 @@ export interface CrudExposed {
   getTableData: () => any[]
   /** 设置表格数据 */
   setTableData: (data: any[]) => void
+  /** 当前每页条数 */
+  pageSize: Ref<number>
 }
