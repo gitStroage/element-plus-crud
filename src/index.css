@@ -1,0 +1,44 @@
+.el-crud {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.el-crud__search {
+  padding: 16px;
+  background: var(--el-bg-color);
+  border-radius: 4px;
+}
+
+.el-crud__toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.el-crud__toolbar-left {
+  display: flex;
+  gap: 8px;
+}
+
+.el-crud__toolbar-right {
+  display: flex;
+  gap: 8px;
+}
+
+.el-crud__table {
+  width: 100%;
+}
+
+.el-crud__pagination {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 0;
+}
+
+.el-crud__dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
