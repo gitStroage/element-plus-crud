@@ -150,6 +150,23 @@
               </el-radio>
             </el-radio-group>
 
+            <!-- Upload -->
+            <el-upload
+              v-else-if="field.type === 'upload'"
+              v-model:file-list="formData[field.prop]"
+              :action="field.componentProps?.action"
+              :headers="field.componentProps?.headers"
+              :multiple="field.componentProps?.multiple ?? false"
+              :limit="field.componentProps?.limit"
+              :accept="field.componentProps?.accept"
+              :disabled="field.disabled || isViewMode"
+              :list-type="field.componentProps?.listType || 'picture-card'"
+              :auto-upload="field.componentProps?.autoUpload ?? true"
+              v-bind="field.componentProps"
+            >
+              <el-icon v-if="!isViewMode"><Plus /></el-icon>
+            </el-upload>
+
             <!-- 自定义插槽 -->
             <slot v-else :name="`form-${field.prop}`" :field="field" :form-data="formData" />
           </el-form-item>
@@ -176,6 +193,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed, watch } from 'vue'
+import { Plus } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import type { DialogConfig, DialogMode } from '../types'
 
