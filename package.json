@@ -2,7 +2,7 @@
   "name": "element-plus-crud",
   "version": "0.1.0",
   "description": "One-line CRUD page generator for Vue 3 + Element Plus",
-  "author": "Your Name",
+  "author": "ZHANGKAI <zhangkai905106@gmail.com>",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -13,14 +13,10 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    },
-    "./style.css": "./dist/style.css"
+    }
   },
   "files": [
     "dist"
-  ],
-  "sideEffects": [
-    "*.css"
   ],
   "scripts": {
     "dev": "vite",
@@ -50,8 +46,21 @@
     "element-plus": "^2.6.0",
     "vue": "^3.4.0"
   },
+  "pnpm": {
+    "overrides": {
+      "vue": "3.5.35",
+      "@vue/runtime-core": "3.5.35",
+      "@vue/runtime-dom": "3.5.35",
+      "@vue/reactivity": "3.5.35",
+      "@vue/shared": "3.5.35",
+      "@vue/compiler-sfc": "3.5.35",
+      "@vue/compiler-dom": "3.5.35",
+      "@vue/compiler-core": "3.5.35"
+    }
+  },
   "devDependencies": {
     "@element-plus/icons-vue": "^2.3.2",
+    "@types/node": "^25.9.1",
     "@vitejs/plugin-vue": "^5.0.0",
     "@vue/test-utils": "^2.4.10",
     "element-plus": "^2.6.0",
@@ -64,6 +73,6 @@
     "vite-plugin-dts": "^3.7.0",
     "vitest": "^1.2.0",
     "vue": "^3.4.0",
-    "vue-tsc": "^1.8.0"
+    "vue-tsc": "^2.2.12"
   }
 }

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import ElCrud from '../../src/components/ElCrud.vue'
 import type { CrudApi, CrudColumns, SearchConfig, DialogConfig } from '../../src/types'
 
@@ -14,24 +14,6 @@ vi.mock('element-plus', () => ({
     confirm: vi.fn().mockResolvedValue('confirm'),
   },
 }))
-
-// 简单的 stub 组件
-const CrudSearchStub = {
-  name: 'CrudSearch',
-  template: '<div><slot /></div>',
-  props: ['*'],
-}
-
-const CrudDialogStub = {
-  name: 'CrudDialog',
-  template: '<div><slot /></div>',
-  props: ['*'],
-}
-
-const Stub = {
-  template: '<div><slot /></div>',
-  props: ['*'],
-}
 
 describe('ElCrud', () => {
   const columns: CrudColumns = [
@@ -69,31 +51,21 @@ describe('ElCrud', () => {
     ],
   }
 
-  const globalStubs = {
-    CrudTable: Stub,
-    CrudSearch: CrudSearchStub,
-    CrudDialog: CrudDialogStub,
-    CrudPagination: Stub,
-    CrudToolbar: Stub,
-  }
-
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
   it('renders correctly', () => {
-    const wrapper = mount(ElCrud, {
+    const wrapper = shallowMount(ElCrud, {
       props: { columns, api, immediate: false },
-      global: { stubs: globalStubs },
     })
     expect(wrapper.exists()).toBe(true)
     expect(wrapper.find('.el-crud').exists()).toBe(true)
   })
 
   it('has correct default props', () => {
-    const wrapper = mount(ElCrud, {
+    const wrapper = shallowMount(ElCrud, {
       props: { columns, api, immediate: false },
-      global: { stubs: globalStubs },
     })
 
     expect(wrapper.props('keyField')).toBe('id')
@@ -104,36 +76,32 @@ describe('ElCrud', () => {
   })
 
   it('renders search component when search config is provided', () => {
-    const wrapper = mount(ElCrud, {
+    const wrapper = shallowMount(ElCrud, {
       props: { columns, api, search: searchConfig, immediate: false },
-      global: { stubs: globalStubs },
     })
 
     expect(wrapper.findComponent({ name: 'CrudSearch' }).exists()).toBe(true)
   })
 
   it('does not render search component when search config is not provided', () => {
-    const wrapper = mount(ElCrud, {
+    const wrapper = shallowMount(ElCrud, {
       props: { columns, api, immediate: false },
-      global: { stubs: globalStubs },
     })
 
     expect(wrapper.findComponent({ name: 'CrudSearch' }).exists()).toBe(false)
   })
 
   it('renders dialog component when dialog config is provided', () => {
-    const wrapper = mount(ElCrud, {
+    const wrapper = shallowMount(ElCrud, {
       props: { columns, api, dialog: dialogConfig, immediate: false },
-      global: { stubs: globalStubs },
     })
 
     expect(wrapper.findComponent({ name: 'CrudDialog' }).exists()).toBe(true)
   })
 
   it('fetches list data on mount when immediate is true', async () => {
-    mount(ElCrud, {
+    shallowMount(ElCrud, {
       props: { columns, api, immediate: true },
-      global: { stubs: globalStubs },
     })
 
     // 等待 onMounted
@@ -143,18 +111,16 @@ describe('ElCrud', () => {
   })
 
   it('does not fetch list data on mount when immediate is false', () => {
-    mount(ElCrud, {
+    shallowMount(ElCrud, {
       props: { columns, api, immediate: false },
-      global: { stubs: globalStubs },
     })
 
     expect(api.list).not.toHaveBeenCalled()
   })
 
   it('exposes correct methods', () => {
-    const wrapper = mount(ElCrud, {
+    const wrapper = shallowMount(ElCrud, {
       props: { columns, api, immediate: false },
-      global: { stubs: globalStubs },
     })
 
     expect(typeof wrapper.vm.refresh).toBe('function')
@@ -169,9 +135,8 @@ describe('ElCrud', () => {
   })
 
   it('emits search event when search is triggered', async () => {
-    const wrapper = mount(ElCrud, {
+    const wrapper = shallowMount(ElCrud, {
       props: { columns, api, search: searchConfig, immediate: false },
-      global: { stubs: globalStubs },
     })
 
     await wrapper.vm.search({ name: '张三' })
@@ -180,9 +145,8 @@ describe('ElCrud', () => {
   })
 
   it('emits reset event when resetSearch is triggered', async () => {
-    const wrapper = mount(ElCrud, {
+    const wrapper = shallowMount(ElCrud, {
       props: { columns, api, search: searchConfig, immediate: false },
-      global: { stubs: globalStubs },
     })
 
     await wrapper.vm.resetSearch()
@@ -191,9 +155,8 @@ describe('ElCrud', () => {
   })
 
   it('sets table data correctly', () => {
-    const wrapper = mount(ElCrud, {
+    const wrapper = shallowMount(ElCrud, {
       props: { columns, api, immediate: false },
-      global: { stubs: globalStubs },
     })
 
     const data = [{ id: 1, name: '测试' }]
@@ -203,25 +166,23 @@ describe('ElCrud', () => {
   })
 
   it('handles custom keyField', () => {
-    const wrapper = mount(ElCrud, {
+    const wrapper = shallowMount(ElCrud, {
       props: { columns, api, keyField: 'userId', immediate: false },
-      global: { stubs: globalStubs },
     })
 
     expect(wrapper.props('keyField')).toBe('userId')
   })
 
   it('handles different sizes', () => {
-    const wrapper = mount(ElCrud, {
+    const wrapper = shallowMount(ElCrud, {
       props: { columns, api, size: 'large', immediate: false },
-      global: { stubs: globalStubs },
     })
 
     expect(wrapper.props('size')).toBe('large')
   })
 
   it('handles custom pagination config', () => {
-    const wrapper = mount(ElCrud, {
+    const wrapper = shallowMount(ElCrud, {
       props: {
         columns,
         api,
@@ -231,14 +192,13 @@ describe('ElCrud', () => {
           pageSize: 15,
         },
       },
-      global: { stubs: globalStubs },
     })
 
     expect(wrapper.vm.pageSize).toBe(15)
   })
 
   it('handles custom toolbar config', () => {
-    const wrapper = mount(ElCrud, {
+    const wrapper = shallowMount(ElCrud, {
       props: {
         columns,
         api,
@@ -249,7 +209,6 @@ describe('ElCrud', () => {
           createText: '新建',
         },
       },
-      global: { stubs: globalStubs },
     })
 
     expect(wrapper.vm.toolbarConfig.showCreate).toBe(false)

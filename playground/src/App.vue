@@ -99,7 +99,7 @@ const api: CrudApi = {
   },
   create: async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 300))
-    const newItem = { ...data, id: Math.max(...mockData.map((d) => d.id)) + 1, createTime: new Date().toISOString() }
+    const newItem = { ...data, id: Math.max(...mockData.map((d) => d.id)) + 1, createTime: new Date().toISOString() } as typeof mockData[number]
     mockData.push(newItem)
     return newItem
   },

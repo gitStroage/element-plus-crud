@@ -47,9 +47,3 @@ export { formatDateTime, formatNumber, formatFileSize } from './utils'
 export function install(app: App) {
   app.component('ElCrud', ElCrud)
 }
-
-// 默认导出
-export default {
-  install,
-  ElCrud,
-}

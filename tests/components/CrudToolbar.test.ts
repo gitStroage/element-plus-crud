@@ -1,13 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import CrudToolbar from '../../src/components/CrudToolbar.vue'
 import type { ToolbarConfig } from '../../src/types'
-
-// 简单的 stub 组件
-const Stub = {
-  template: '<div><slot /></div>',
-  props: ['*'],
-}
 
 describe('CrudToolbar', () => {
   const config: ToolbarConfig = {
@@ -20,83 +14,55 @@ describe('CrudToolbar', () => {
     batchDeleteText: '批量删除',
   }
 
-  const globalStubs = {
-    ElButton: Stub,
-    ElIcon: Stub,
-    ElTooltip: Stub,
-    ElDropdown: Stub,
-    ElDropdownMenu: Stub,
-    ElDropdownItem: Stub,
-    ElPopover: Stub,
-    Plus: Stub,
-    Delete: Stub,
-    Refresh: Stub,
-    Operation: Stub,
-    Setting: Stub,
-  }
-
   it('renders correctly', () => {
-    const wrapper = mount(CrudToolbar, {
+    const wrapper = shallowMount(CrudToolbar, {
       props: { config },
-      global: { stubs: globalStubs },
     })
     expect(wrapper.exists()).toBe(true)
   })
 
   it('has correct default props', () => {
-    const wrapper = mount(CrudToolbar, {
+    const wrapper = shallowMount(CrudToolbar, {
       props: { config },
-      global: { stubs: globalStubs },
     })
-
     expect(wrapper.props('selectedCount')).toBe(0)
   })
 
   it('accepts selectedCount prop', () => {
-    const wrapper = mount(CrudToolbar, {
+    const wrapper = shallowMount(CrudToolbar, {
       props: { config, selectedCount: 5 },
-      global: { stubs: globalStubs },
     })
-
     expect(wrapper.props('selectedCount')).toBe(5)
   })
 
   it('emits create event', async () => {
-    const wrapper = mount(CrudToolbar, {
+    const wrapper = shallowMount(CrudToolbar, {
       props: { config },
-      global: { stubs: globalStubs },
     })
-
     await wrapper.vm.$emit('create')
     expect(wrapper.emitted('create')).toBeTruthy()
   })
 
   it('emits batch-delete event', async () => {
-    const wrapper = mount(CrudToolbar, {
+    const wrapper = shallowMount(CrudToolbar, {
       props: { config },
-      global: { stubs: globalStubs },
     })
-
     await wrapper.vm.$emit('batch-delete')
     expect(wrapper.emitted('batch-delete')).toBeTruthy()
   })
 
   it('emits refresh event', async () => {
-    const wrapper = mount(CrudToolbar, {
+    const wrapper = shallowMount(CrudToolbar, {
       props: { config },
-      global: { stubs: globalStubs },
     })
-
     await wrapper.vm.$emit('refresh')
     expect(wrapper.emitted('refresh')).toBeTruthy()
   })
 
   it('emits density-change event', async () => {
-    const wrapper = mount(CrudToolbar, {
+    const wrapper = shallowMount(CrudToolbar, {
       props: { config },
-      global: { stubs: globalStubs },
     })
-
     await wrapper.vm.$emit('density-change', 'small')
     expect(wrapper.emitted('density-change')).toBeTruthy()
     expect(wrapper.emitted('density-change')![0]).toEqual(['small'])
@@ -111,9 +77,8 @@ describe('CrudToolbar', () => {
       showColumnSetting: false,
     }
 
-    const wrapper = mount(CrudToolbar, {
+    const wrapper = shallowMount(CrudToolbar, {
       props: { config: hiddenConfig },
-      global: { stubs: globalStubs },
     })
 
     expect(wrapper.vm.config.showCreate).toBe(false)
@@ -129,9 +94,8 @@ describe('CrudToolbar', () => {
       batchDeleteText: '删除选中',
     }
 
-    const wrapper = mount(CrudToolbar, {
+    const wrapper = shallowMount(CrudToolbar, {
       props: { config: customConfig },
-      global: { stubs: globalStubs },
     })
 
     expect(wrapper.vm.config.createText).toBe('新建')

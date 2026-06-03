@@ -12,7 +12,7 @@ export default defineConfig({
     dts({
       include: ['src/**/*.ts', 'src/**/*.vue'],
       outDir: 'dist',
-    }),
+    }) as any,
   ],
   build: {
     lib: {
