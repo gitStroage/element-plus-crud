@@ -1,5 +1,8 @@
 <template>
-  <div v-if="total > 0" class="el-crud__pagination">
+  <div
+    v-if="total > 0"
+    class="el-crud__pagination"
+  >
     <el-pagination
       :current-page="page"
       :page-size="pageSize"
@@ -16,36 +19,36 @@
 
 <script setup lang="ts">
 defineOptions({
-  name: 'CrudPagination',
-})
+  name: "CrudPagination",
+});
 
 interface Props {
-  total: number
-  page: number
-  pageSize: number
-  pageSizes?: number[]
-  layout?: string
-  background?: boolean
-  pagerCount?: number
+  total: number;
+  page: number;
+  pageSize: number;
+  pageSizes?: number[];
+  layout?: string;
+  background?: boolean;
+  pagerCount?: number;
 }
 
 withDefaults(defineProps<Props>(), {
   pageSizes: () => [10, 20, 50, 100],
-  layout: 'total, sizes, prev, pager, next, jumper',
+  layout: "total, sizes, prev, pager, next, jumper",
   background: true,
   pagerCount: 7,
-})
+});
 
 const emit = defineEmits<{
-  'page-change': [page: number]
-  'size-change': [size: number]
-}>()
+  "page-change": [page: number];
+  "size-change": [size: number];
+}>();
 
 function handlePageChange(page: number) {
-  emit('page-change', page)
+  emit("page-change", page);
 }
 
 function handleSizeChange(size: number) {
-  emit('size-change', size)
+  emit("size-change", size);
 }
 </script>

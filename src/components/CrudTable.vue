@@ -14,10 +14,20 @@
     @sort-change="handleSortChange"
   >
     <!-- 多选列 -->
-    <el-table-column type="selection" width="50" fixed="left" />
+    <el-table-column
+      type="selection"
+      width="50"
+      fixed="left"
+    />
 
     <!-- 序号列 -->
-    <el-table-column v-if="showIndex" type="index" width="60" label="#" fixed="left" />
+    <el-table-column
+      v-if="showIndex"
+      type="index"
+      width="60"
+      label="#"
+      fixed="left"
+    />
 
     <!-- 动态列 -->
     <el-table-column
@@ -34,14 +44,24 @@
       :class-name="column.className"
     >
       <!-- 自定义表头 -->
-      <template v-if="column.headerSlotName" #header="scope">
-        <slot :name="column.headerSlotName" v-bind="scope" />
+      <template
+        v-if="column.headerSlotName"
+        #header="scope"
+      >
+        <slot
+          :name="column.headerSlotName"
+          v-bind="scope"
+        />
       </template>
 
       <!-- 自定义内容 -->
       <template #default="scope">
         <!-- 自定义插槽 -->
-        <slot v-if="column.slotName" :name="column.slotName" v-bind="scope" />
+        <slot
+          v-if="column.slotName"
+          :name="column.slotName"
+          v-bind="scope"
+        />
 
         <!-- 根据类型渲染 -->
         <template v-else-if="column.type === 'tag'">
@@ -62,7 +82,11 @@
               height: (column.imageConfig?.height || 40) + 'px',
             }"
             :fit="column.imageConfig?.fit || 'cover'"
-            :preview-src-list="column.imageConfig?.preview !== false ? [scope.row[column.prop]] : []"
+            :preview-src-list="
+              column.imageConfig?.preview !== false
+                ? [scope.row[column.prop]]
+                : []
+            "
             preview-teleported
           />
         </template>
@@ -73,7 +97,10 @@
             :target="column.linkConfig?.target || '_blank'"
             type="primary"
           >
-            {{ scope.row[column.linkConfig?.textField || column.prop] || scope.row[column.prop] }}
+            {{
+              scope.row[column.linkConfig?.textField || column.prop] ||
+                scope.row[column.prop]
+            }}
           </el-link>
         </template>
 
@@ -88,13 +115,32 @@
     </el-table-column>
 
     <!-- 操作列 -->
-    <el-table-column v-if="showActions" label="操作" :width="actionsWidth" fixed="right" align="center">
+    <el-table-column
+      v-if="showActions"
+      label="操作"
+      :width="actionsWidth"
+      fixed="right"
+      align="center"
+    >
       <template #default="scope">
-        <slot name="actions" v-bind="scope">
-          <el-button type="primary" link size="small" @click.stop="handleEdit(scope.row)">
+        <slot
+          name="actions"
+          v-bind="scope"
+        >
+          <el-button
+            type="primary"
+            link
+            size="small"
+            @click.stop="handleEdit(scope.row)"
+          >
             编辑
           </el-button>
-          <el-button type="danger" link size="small" @click.stop="handleDelete(scope.row)">
+          <el-button
+            type="danger"
+            link
+            size="small"
+            @click.stop="handleDelete(scope.row)"
+          >
             删除
           </el-button>
         </slot>
@@ -111,74 +157,81 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import type { CrudColumns } from '../types'
-import { formatColumnValue, getTagType, getTagColor } from '../utils'
+import { computed } from "vue";
+import type { CrudColumns } from "../types";
+import { formatColumnValue, getTagType, getTagColor } from "../utils";
 
 defineOptions({
-  name: 'CrudTable',
-})
+  name: "CrudTable",
+});
 
 interface Props {
-  columns: CrudColumns
-  data: any[]
-  loading?: boolean
-  height?: number | string
-  stripe?: boolean
-  border?: boolean
-  size?: 'large' | 'default' | 'small'
-  keyField?: string
-  showIndex?: boolean
-  showActions?: boolean
-  actionsWidth?: number | string
+  columns: CrudColumns;
+  data: any[];
+  loading?: boolean;
+  height?: number | string;
+  stripe?: boolean;
+  border?: boolean;
+  size?: "large" | "default" | "small";
+  keyField?: string;
+  showIndex?: boolean;
+  showActions?: boolean;
+  actionsWidth?: number | string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   loading: false,
+  height: undefined,
   stripe: true,
   border: true,
-  size: 'default',
-  keyField: 'id',
+  size: "default",
+  keyField: "id",
   showIndex: false,
   showActions: true,
   actionsWidth: 150,
-})
+});
 
 const emit = defineEmits<{
-  'row-click': [row: any, column: any, event: Event]
-  'selection-change': [rows: any[]]
-  'sort-change': [params: { prop: string; order: string }]
-  edit: [row: any]
-  delete: [row: any]
-}>()
+  "row-click": [row: any, column: any, event: Event];
+  "selection-change": [rows: any[]];
+  "sort-change": [params: { prop: string; order: string }];
+  edit: [row: any];
+  delete: [row: any];
+}>();
 
 // 过滤隐藏的列
 const visibleColumns = computed(() => {
-  return props.columns.filter((col) => !col.hidden)
-})
+  return props.columns.filter((col) => !col.hidden);
+});
 
 // 行点击
 function handleRowClick(row: any, column: any, event: Event) {
-  emit('row-click', row, column, event)
+  emit("row-click", row, column, event);
 }
 
 // 选择变化
 function handleSelectionChange(rows: any[]) {
-  emit('selection-change', rows)
+  emit("selection-change", rows);
 }
 
 // 排序变化
-function handleSortChange({ prop, order }: { prop: string; order: string | null }) {
-  emit('sort-change', { prop, order: order || '' })
+function handleSortChange({
+  prop,
+  order,
+}: {
+  prop: string;
+  order: string | null;
+}) {
+  emit("sort-change", { prop, order: order || "" });
 }
 
 // 编辑
 function handleEdit(row: any) {
-  emit('edit', row)
+  emit("edit", row);
 }
 
 // 删除
 function handleDelete(row: any) {
-  emit('delete', row)
+  emit("delete", row);
 }
 </script>

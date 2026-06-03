@@ -1,24 +1,24 @@
-import type { Ref } from 'vue'
-import type { CrudColumns } from './column'
-import type { SearchConfig } from './search'
-import type { DialogConfig } from './dialog'
+import type { Ref } from "vue";
+import type { CrudColumns } from "./column";
+import type { SearchConfig } from "./search";
+import type { DialogConfig } from "./dialog";
 
 /**
  * API 接口配置
  */
 export interface CrudApi<T = any> {
   /** 获取列表 */
-  list: (params: CrudListParams) => Promise<CrudListResult<T>>
+  list: (params: CrudListParams) => Promise<CrudListResult<T>>;
   /** 新增数据 */
-  create?: (data: Partial<T>) => Promise<T>
+  create?: (data: Partial<T>) => Promise<T>;
   /** 更新数据 */
-  update?: (id: any, data: Partial<T>) => Promise<T>
+  update?: (id: any, data: Partial<T>) => Promise<T>;
   /** 删除数据 */
-  delete?: (id: any) => Promise<void>
+  delete?: (id: any) => Promise<void>;
   /** 批量删除 */
-  batchDelete?: (ids: any[]) => Promise<void>
+  batchDelete?: (ids: any[]) => Promise<void>;
   /** 获取详情 */
-  detail?: (id: any) => Promise<T>
+  detail?: (id: any) => Promise<T>;
 }
 
 /**
@@ -26,11 +26,11 @@ export interface CrudApi<T = any> {
  */
 export interface CrudListParams {
   /** 当前页码 */
-  page: number
+  page: number;
   /** 每页条数 */
-  pageSize: number
+  pageSize: number;
   /** 搜索参数 */
-  [key: string]: any
+  [key: string]: any;
 }
 
 /**
@@ -38,11 +38,11 @@ export interface CrudListParams {
  */
 export interface CrudListResult<T = any> {
   /** 数据列表 */
-  list: T[]
+  list: T[];
   /** 总条数 */
-  total: number
+  total: number;
   /** 其他字段 */
-  [key: string]: any
+  [key: string]: any;
 }
 
 /**
@@ -50,19 +50,19 @@ export interface CrudListResult<T = any> {
  */
 export interface PaginationConfig {
   /** 每页条数选项 */
-  pageSizes?: number[]
+  pageSizes?: number[];
   /** 默认每页条数 */
-  pageSize?: number
+  pageSize?: number;
   /** 默认当前页 */
-  currentPage?: number
+  currentPage?: number;
   /** 布局 */
-  layout?: string
+  layout?: string;
   /** 背景色 */
-  background?: boolean
+  background?: boolean;
   /** 是否显示总数 */
-  total?: boolean
+  total?: boolean;
   /** 是否显示每页条数选择器 */
-  pagerCount?: number
+  pagerCount?: number;
 }
 
 /**
@@ -70,54 +70,54 @@ export interface PaginationConfig {
  */
 export interface ToolbarConfig {
   /** 是否显示新增按钮 */
-  showCreate?: boolean
+  showCreate?: boolean;
   /** 是否显示批量删除按钮 */
-  showBatchDelete?: boolean
+  showBatchDelete?: boolean;
   /** 是否显示刷新按钮 */
-  showRefresh?: boolean
+  showRefresh?: boolean;
   /** 是否显示密度选择 */
-  showDensity?: boolean
+  showDensity?: boolean;
   /** 是否显示列设置 */
-  showColumnSetting?: boolean
+  showColumnSetting?: boolean;
   /** 新增按钮文本 */
-  createText?: string
+  createText?: string;
   /** 批量删除按钮文本 */
-  batchDeleteText?: string
+  batchDeleteText?: string;
 }
 
 /**
  * 主键字段名
  */
-export type KeyField = string
+export type KeyField = string;
 
 /**
  * CRUD 组件 Props
  */
 export interface CrudProps<T = any> {
   /** 表格列配置 */
-  columns: CrudColumns<T>
+  columns: CrudColumns<T>;
   /** API 接口配置 */
-  api: CrudApi<T>
+  api: CrudApi<T>;
   /** 搜索配置 */
-  search?: SearchConfig
+  search?: SearchConfig;
   /** 弹窗表单配置 */
-  dialog?: DialogConfig
+  dialog?: DialogConfig;
   /** 分页配置 */
-  pagination?: PaginationConfig
+  pagination?: PaginationConfig;
   /** 工具栏配置 */
-  toolbar?: ToolbarConfig
+  toolbar?: ToolbarConfig;
   /** 主键字段名，默认 'id' */
-  keyField?: KeyField
+  keyField?: KeyField;
   /** 是否立即加载数据 */
-  immediate?: boolean
+  immediate?: boolean;
   /** 表格高度 */
-  height?: number | string
+  height?: number | string;
   /** 是否显示斑马纹 */
-  stripe?: boolean
+  stripe?: boolean;
   /** 是否显示边框 */
-  border?: boolean
+  border?: boolean;
   /** 表格尺寸 */
-  size?: 'large' | 'default' | 'small'
+  size?: "large" | "default" | "small";
 }
 
 /**
@@ -125,25 +125,25 @@ export interface CrudProps<T = any> {
  */
 export interface CrudEmits {
   /** 搜索事件 */
-  (e: 'search', params: Record<string, any>): void
+  (e: "search", params: Record<string, any>): void;
   /** 重置搜索事件 */
-  (e: 'reset'): void
+  (e: "reset"): void;
   /** 新增事件 */
-  (e: 'create', data: Record<string, any>): void
+  (e: "create", data: Record<string, any>): void;
   /** 更新事件 */
-  (e: 'update', id: any, data: Record<string, any>): void
+  (e: "update", id: any, data: Record<string, any>): void;
   /** 删除事件 */
-  (e: 'delete', id: any): void
+  (e: "delete", id: any): void;
   /** 批量删除事件 */
-  (e: 'batch-delete', ids: any[]): void
+  (e: "batch-delete", ids: any[]): void;
   /** 行点击事件 */
-  (e: 'row-click', row: any, column: any, event: Event): void
+  (e: "row-click", row: any, column: any, event: Event): void;
   /** 选择变化事件 */
-  (e: 'selection-change', rows: any[]): void
+  (e: "selection-change", rows: any[]): void;
   /** 分页变化事件 */
-  (e: 'page-change', page: number): void
+  (e: "page-change", page: number): void;
   /** 每页条数变化事件 */
-  (e: 'size-change', size: number): void
+  (e: "size-change", size: number): void;
 }
 
 /**
@@ -151,23 +151,23 @@ export interface CrudEmits {
  */
 export interface CrudExposed {
   /** 刷新表格数据 */
-  refresh: () => Promise<void>
+  refresh: () => Promise<void>;
   /** 执行搜索 */
-  search: (params?: Record<string, any>) => void
+  search: (params?: Record<string, any>) => void;
   /** 重置搜索 */
-  resetSearch: () => void
+  resetSearch: () => void;
   /** 获取选中行 */
-  getSelectionRows: () => any[]
+  getSelectionRows: () => any[];
   /** 打开新增弹窗 */
-  openCreateDialog: (defaultData?: Record<string, any>) => void
+  openCreateDialog: (defaultData?: Record<string, any>) => void;
   /** 打开编辑弹窗 */
-  openEditDialog: (row: any) => void
+  openEditDialog: (row: any) => void;
   /** 关闭弹窗 */
-  closeDialog: () => void
+  closeDialog: () => void;
   /** 获取表格数据 */
-  getTableData: () => any[]
+  getTableData: () => any[];
   /** 设置表格数据 */
-  setTableData: (data: any[]) => void
+  setTableData: (data: any[]) => void;
   /** 当前每页条数 */
-  pageSize: Ref<number>
+  pageSize: Ref<number>;
 }

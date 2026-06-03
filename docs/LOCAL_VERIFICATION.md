@@ -161,7 +161,7 @@ grep -c "require('vue')" dist/index.cjs     # 应为 0
 ### 4.1 打包预览
 
 ```bash
-pnpm pack --dry-run
+npm pack --dry-run
 ```
 
 **预期结果：**
@@ -172,7 +172,7 @@ pnpm pack --dry-run
 ### 4.2 实际打包测试
 
 ```bash
-pnpm pack
+npm pack
 # 会生成 element-plus-crud-0.1.0.tgz
 ```
 
@@ -427,12 +427,12 @@ npm install element-plus-crud@0.1.0
 |--------|---------|------|------|
 | tsc --noEmit | 2026-06-03 | pass | |
 | vue-tsc --noEmit | 2026-06-03 | pass | |
-| pnpm lint | | 待执行 | |
-| pnpm test:run | 2026-06-03 | 111/111 pass | 11 文件，0 失败 |
+| pnpm lint | 2026-06-03 | pass | 0 error, 0 warning (lint:fix 后) |
+| pnpm test:run | 2026-06-03 | 133/133 pass | 12 文件，0 失败 |
 | pnpm build | 2026-06-03 | pass | 无警告，index.js 59KB / index.cjs 40KB |
 | dist 文件完整性 | 2026-06-03 | pass | 8 项均存在 |
 | npm pack --dry-run | 2026-06-03 | pass | 47 文件，包体积 37.2 KB |
 | 本地安装测试 | | 待执行 | |
 | Playground 功能验证 | | 待执行 | 手动测试 |
 | 新项目集成测试 | | 待执行 | |
-| 本地模拟 CI | | 待执行 | |
+| 本地模拟 CI | 2026-06-03 | pass | 5 步全部通过 |

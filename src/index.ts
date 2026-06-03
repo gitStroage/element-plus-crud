@@ -1,12 +1,12 @@
-import type { App } from 'vue'
-import ElCrud from './components/ElCrud.vue'
+import type { App } from "vue";
+import ElCrud from "./components/ElCrud.vue";
 
 // 导出组件
-export { ElCrud }
+export { ElCrud };
 
 // 导出组合式函数
-export { useCrud } from './composables'
-export type { UseCrudOptions } from './composables'
+export { useCrud } from "./composables";
+export type { UseCrudOptions } from "./composables";
 
 // 导出类型
 export type {
@@ -38,12 +38,12 @@ export type {
   ImageConfig,
   LinkConfig,
   ColumnFormatter,
-} from './types'
+} from "./types";
 
 // 导出工具函数
-export { formatDateTime, formatNumber, formatFileSize } from './utils'
+export { formatDateTime, formatNumber, formatFileSize } from "./utils";
 
 // 插件安装函数
 export function install(app: App) {
-  app.component('ElCrud', ElCrud)
+  app.component("ElCrud", ElCrud);
 }

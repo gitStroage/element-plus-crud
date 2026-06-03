@@ -12,7 +12,10 @@
           :key="field.prop"
           :span="6"
         >
-          <el-form-item :label="field.label" :prop="field.prop">
+          <el-form-item
+            :label="field.label"
+            :prop="field.prop"
+          >
             <!-- Input -->
             <el-input
               v-if="!field.type || field.type === 'input'"
@@ -58,8 +61,12 @@
               v-else-if="field.type === 'date-range-picker'"
               v-model="formData[field.prop]"
               type="daterange"
-              :start-placeholder="field.componentProps?.startPlaceholder || '开始日期'"
-              :end-placeholder="field.componentProps?.endPlaceholder || '结束日期'"
+              :start-placeholder="
+                field.componentProps?.startPlaceholder || '开始日期'
+              "
+              :end-placeholder="
+                field.componentProps?.endPlaceholder || '结束日期'
+              "
               :disabled="field.disabled"
               :clearable="field.clearable !== false"
               v-bind="field.componentProps"
@@ -140,13 +147,13 @@
               type="primary"
               @click="handleSearch"
             >
-              {{ config.searchText || '搜索' }}
+              {{ config.searchText || "搜索" }}
             </el-button>
             <el-button
               v-if="config.showReset !== false"
               @click="handleReset"
             >
-              {{ config.resetText || '重置' }}
+              {{ config.resetText || "重置" }}
             </el-button>
             <el-button
               v-if="config.showMore && config.fields.length > moreCount"
@@ -154,7 +161,7 @@
               link
               @click="showMore = !showMore"
             >
-              {{ showMore ? '收起' : '更多' }}
+              {{ showMore ? "收起" : "更多" }}
               <el-icon>
                 <ArrowUp v-if="showMore" />
                 <ArrowDown v-else />
@@ -168,81 +175,81 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, watch } from 'vue'
-import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
-import type { SearchConfig, SearchField } from '../types'
+import { ref, reactive, computed, watch } from "vue";
+import { ArrowUp, ArrowDown } from "@element-plus/icons-vue";
+import type { SearchConfig, SearchField } from "../types";
 
 defineOptions({
-  name: 'CrudSearch',
-})
+  name: "CrudSearch",
+});
 
 interface Props {
-  config: SearchConfig
+  config: SearchConfig;
 }
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
 const emit = defineEmits<{
-  search: [params: Record<string, any>]
-  reset: []
-}>()
+  search: [params: Record<string, any>];
+  reset: [];
+}>();
 
 // 是否显示更多
-const showMore = ref(false)
+const showMore = ref(false);
 
 // 更多按钮显示数量
-const moreCount = computed(() => props.config.moreCount || 3)
+const moreCount = computed(() => props.config.moreCount || 3);
 
 // 表单数据
-const formData = reactive<Record<string, any>>({})
+const formData = reactive<Record<string, any>>({});
 
 // 初始化表单数据
 function initFormData() {
   props.config.fields.forEach((field) => {
-    formData[field.prop] = field.defaultValue ?? getDefaultValue(field.type)
-  })
+    formData[field.prop] = field.defaultValue ?? getDefaultValue(field.type);
+  });
 }
 
 // 获取默认值
 function getDefaultValue(type?: string) {
   switch (type) {
-    case 'checkbox':
-      return []
-    case 'switch':
-      return false
+    case "checkbox":
+      return [];
+    case "switch":
+      return false;
     default:
-      return undefined
+      return undefined;
   }
 }
 
 // 显示的字段
 const displayFields = computed<SearchField[]>(() => {
-  const fields = props.config.fields
+  const fields = props.config.fields;
   if (!props.config.showMore || showMore.value) {
-    return fields
+    return fields;
   }
-  return fields.slice(0, moreCount.value)
-})
+  return fields.slice(0, moreCount.value);
+});
 
 // 监听配置变化，重新初始化
-watch(() => props.config.fields, initFormData, { immediate: true, deep: true })
+watch(() => props.config.fields, initFormData, { immediate: true, deep: true });
 
 // 搜索
 function handleSearch() {
   // 过滤空值
-  const params: Record<string, any> = {}
+  const params: Record<string, any> = {};
   Object.keys(formData).forEach((key) => {
-    const value = formData[key]
-    if (value !== undefined && value !== null && value !== '') {
-      params[key] = value
+    const value = formData[key];
+    if (value !== undefined && value !== null && value !== "") {
+      params[key] = value;
     }
-  })
-  emit('search', params)
+  });
+  emit("search", params);
 }
 
 // 重置
 function handleReset() {
-  initFormData()
-  emit('reset')
+  initFormData();
+  emit("reset");
 }
 </script>

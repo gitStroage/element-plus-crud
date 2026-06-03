@@ -24,7 +24,10 @@
           :key="field.prop"
           :span="field.span || 24"
         >
-          <el-form-item :label="field.label" :prop="field.prop">
+          <el-form-item
+            :label="field.label"
+            :prop="field.prop"
+          >
             <!-- Input -->
             <el-input
               v-if="!field.type || field.type === 'input'"
@@ -164,27 +167,37 @@
               :auto-upload="field.componentProps?.autoUpload ?? true"
               v-bind="field.componentProps"
             >
-              <el-icon v-if="!isViewMode"><Plus /></el-icon>
+              <el-icon v-if="!isViewMode">
+                <Plus />
+              </el-icon>
             </el-upload>
 
             <!-- 自定义插槽 -->
-            <slot v-else :name="`form-${field.prop}`" :field="field" :form-data="formData" />
+            <slot
+              v-else
+              :name="`form-${field.prop}`"
+              :field="field"
+              :form-data="formData"
+            />
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
 
-    <template v-if="!isViewMode" #footer>
+    <template
+      v-if="!isViewMode"
+      #footer
+    >
       <span class="el-crud__dialog-footer">
         <el-button @click="handleClose">
-          {{ config.cancelText || '取消' }}
+          {{ config.cancelText || "取消" }}
         </el-button>
         <el-button
           type="primary"
           :loading="loading"
           @click="handleSubmit"
         >
-          {{ config.confirmText || '确定' }}
+          {{ config.confirmText || "确定" }}
         </el-button>
       </span>
     </template>
@@ -192,106 +205,109 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, watch } from 'vue'
-import { Plus } from '@element-plus/icons-vue'
-import type { FormInstance, FormRules } from 'element-plus'
-import type { DialogConfig, DialogMode } from '../types'
+import { ref, reactive, computed, watch } from "vue";
+import { Plus } from "@element-plus/icons-vue";
+import type { FormInstance, FormRules } from "element-plus";
+import type { DialogConfig, DialogMode } from "../types";
 
 defineOptions({
-  name: 'CrudDialog',
-})
+  name: "CrudDialog",
+});
 
 interface Props {
-  config: DialogConfig
-  mode: DialogMode
-  data?: Record<string, any>
-  loading?: boolean
+  config: DialogConfig;
+  mode: DialogMode;
+  data?: Record<string, any>;
+  loading?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   data: () => ({}),
   loading: false,
-})
+});
 
 const emit = defineEmits<{
-  submit: [data: Record<string, any>]
-  close: []
-}>()
+  submit: [data: Record<string, any>];
+  close: [];
+}>();
 
 // 弹窗可见性
-const visible = ref(false)
+const visible = ref(false);
 
 // 表单引用
-const formRef = ref<FormInstance>()
+const formRef = ref<FormInstance>();
 
 // 表单数据
-const formData = reactive<Record<string, any>>({})
+const formData = reactive<Record<string, any>>({});
 
 // 是否查看模式
-const isViewMode = computed(() => props.mode === 'view')
+const isViewMode = computed(() => props.mode === "view");
 
 // 弹窗标题
 const dialogTitle = computed(() => {
-  const { config, mode } = props
+  const { config, mode } = props;
   switch (mode) {
-    case 'create':
-      return config.createTitle || '新增'
-    case 'edit':
-      return config.editTitle || '编辑'
-    case 'view':
-      return config.viewTitle || '查看'
+    case "create":
+      return config.createTitle || "新增";
+    case "edit":
+      return config.editTitle || "编辑";
+    case "view":
+      return config.viewTitle || "查看";
     default:
-      return ''
+      return "";
   }
-})
+});
 
 // 表单校验规则
 const formRules = computed<FormRules>(() => {
-  const rules: FormRules = { ...props.config.rules }
+  const rules: FormRules = { ...props.config.rules };
 
   // 自动生成必填规则
   props.config.fields.forEach((field) => {
     if (field.required && !rules[field.prop]) {
       rules[field.prop] = [
-        { required: true, message: `请输入${field.label}`, trigger: 'blur' },
-      ]
+        { required: true, message: `请输入${field.label}`, trigger: "blur" },
+      ];
     }
     if (field.rules) {
-      rules[field.prop] = [...(rules[field.prop] as any[] || []), ...field.rules]
+      rules[field.prop] = [
+        ...((rules[field.prop] as any[]) || []),
+        ...field.rules,
+      ];
     }
-  })
+  });
 
-  return rules
-})
+  return rules;
+});
 
 // 初始化表单数据
 function initFormData() {
   // 先设置默认值
   props.config.fields.forEach((field) => {
-    formData[field.prop] = field.defaultValue ?? getDefaultValue(field.type)
-  })
+    formData[field.prop] = field.defaultValue ?? getDefaultValue(field.type);
+  });
 
   // 再合并传入的数据
   if (props.data) {
     Object.keys(props.data).forEach((key) => {
       if (key in formData || props.config.fields.some((f) => f.prop === key)) {
-        formData[key] = props.data![key]
+        formData[key] = props.data![key];
       }
-    })
+    });
   }
 }
 
 // 获取默认值
 function getDefaultValue(type?: string) {
   switch (type) {
-    case 'checkbox':
-      return []
-    case 'switch':
-      return false
-    case 'number':
-      return undefined
+    case "checkbox":
+      return [];
+    case "switch":
+      return false;
+    case "number":
+      return undefined;
     default:
-      return undefined
+      return undefined;
   }
 }
 
@@ -300,37 +316,37 @@ watch(
   () => [props.data, props.mode],
   () => {
     if (visible.value) {
-      initFormData()
+      initFormData();
     }
   },
-  { deep: true }
-)
+  { deep: true },
+);
 
 // 打开弹窗
 function open() {
-  visible.value = true
-  initFormData()
+  visible.value = true;
+  initFormData();
 }
 
 // 关闭弹窗
 function close() {
-  visible.value = false
-  formRef.value?.resetFields()
+  visible.value = false;
+  formRef.value?.resetFields();
 }
 
 // 处理关闭
 function handleClose() {
-  close()
-  emit('close')
+  close();
+  emit("close");
 }
 
 // 处理提交
 async function handleSubmit() {
-  if (!formRef.value) return
+  if (!formRef.value) return;
 
   try {
-    await formRef.value.validate()
-    emit('submit', { ...formData })
+    await formRef.value.validate();
+    emit("submit", { ...formData });
   } catch {
     // 校验失败
   }
@@ -343,10 +359,10 @@ defineExpose({
   getFormData: () => ({ ...formData }),
   setFormData: (data: Record<string, any>) => {
     Object.keys(data).forEach((key) => {
-      formData[key] = data[key]
-    })
+      formData[key] = data[key];
+    });
   },
   validate: () => formRef.value?.validate(),
   resetFields: () => formRef.value?.resetFields(),
-})
+});
 </script>

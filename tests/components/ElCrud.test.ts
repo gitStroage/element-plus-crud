@@ -211,8 +211,9 @@ describe('ElCrud', () => {
       },
     })
 
-    expect(wrapper.vm.toolbarConfig.showCreate).toBe(false)
-    expect(wrapper.vm.toolbarConfig.showBatchDelete).toBe(false)
-    expect(wrapper.vm.toolbarConfig.createText).toBe('新建')
+    const vm = wrapper.vm as any
+    expect(vm.toolbarConfig.showCreate).toBe(false)
+    expect(vm.toolbarConfig.showBatchDelete).toBe(false)
+    expect(vm.toolbarConfig.createText).toBe('新建')
   })
 })

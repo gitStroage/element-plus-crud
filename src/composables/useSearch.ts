@@ -1,61 +1,62 @@
-import { ref } from 'vue'
-import type { SearchConfig } from '../types'
+import { ref } from "vue";
+import type { SearchConfig } from "../types";
 
 export function useSearch(config?: SearchConfig) {
-  const searchParams = ref<Record<string, any>>({})
-  const showMore = ref(false)
+  const searchParams = ref<Record<string, any>>({});
+  const showMore = ref(false);
 
   // 初始化搜索参数
   function initParams() {
-    if (!config?.fields) return
+    if (!config?.fields) return;
 
     config.fields.forEach((field) => {
-      searchParams.value[field.prop] = field.defaultValue ?? getDefaultValue(field.type)
-    })
+      searchParams.value[field.prop] =
+        field.defaultValue ?? getDefaultValue(field.type);
+    });
   }
 
   // 获取默认值
   function getDefaultValue(type?: string) {
     switch (type) {
-      case 'checkbox':
-        return []
-      case 'switch':
-        return false
+      case "checkbox":
+        return [];
+      case "switch":
+        return false;
       default:
-        return undefined
+        return undefined;
     }
   }
 
   // 设置搜索参数
   function setParams(params: Record<string, any>) {
-    searchParams.value = { ...params }
+    searchParams.value = { ...params };
   }
 
   // 更新单个参数
   function setParam(key: string, value: any) {
-    searchParams.value[key] = value
+    searchParams.value[key] = value;
   }
 
   // 获取搜索参数（过滤空值）
   function getParams() {
-    const params: Record<string, any> = {}
+    const params: Record<string, any> = {};
     Object.keys(searchParams.value).forEach((key) => {
-      const value = searchParams.value[key]
-      if (value !== undefined && value !== null && value !== '') {
-        params[key] = value
+      const value = searchParams.value[key];
+      if (value !== undefined && value !== null && value !== "") {
+        params[key] = value;
       }
-    })
-    return params
+    });
+    return params;
   }
 
   // 重置搜索参数
   function resetParams() {
-    initParams()
+    initParams();
   }
 
   // 切换更多显示
   function toggleMore() {
-    showMore.value = !showMore.value
+    showMore.value = !showMore.value;
   }
 
   return {
@@ -67,5 +68,5 @@ export function useSearch(config?: SearchConfig) {
     getParams,
     resetParams,
     toggleMore,
-  }
+  };
 }

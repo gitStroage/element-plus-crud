@@ -1,6 +1,6 @@
-export { useTable } from './useTable'
-export { useSearch } from './useSearch'
-export { useDialog } from './useDialog'
-export { usePagination } from './usePagination'
-export { useCrud } from './useCrud'
-export type { UseCrudOptions } from './useCrud'
+export { useTable } from "./useTable";
+export { useSearch } from "./useSearch";
+export { useDialog } from "./useDialog";
+export { usePagination } from "./usePagination";
+export { useCrud } from "./useCrud";
+export type { UseCrudOptions } from "./useCrud";

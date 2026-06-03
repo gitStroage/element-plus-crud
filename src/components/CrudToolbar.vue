@@ -8,7 +8,7 @@
           @click="emit('create')"
         >
           <el-icon><Plus /></el-icon>
-          {{ config.createText || '新增' }}
+          {{ config.createText || "新增" }}
         </el-button>
         <el-button
           v-if="config.showBatchDelete !== false"
@@ -17,7 +17,7 @@
           @click="emit('batch-delete')"
         >
           <el-icon><Delete /></el-icon>
-          {{ config.batchDeleteText || '批量删除' }}
+          {{ config.batchDeleteText || "批量删除" }}
           <span v-if="selectedCount > 0">({{ selectedCount }})</span>
         </el-button>
       </slot>
@@ -25,7 +25,10 @@
 
     <div class="el-crud__toolbar-right">
       <slot name="right">
-        <el-tooltip content="刷新" placement="top">
+        <el-tooltip
+          content="刷新"
+          placement="top"
+        >
           <el-button
             v-if="config.showRefresh !== false"
             circle
@@ -35,7 +38,10 @@
           </el-button>
         </el-tooltip>
 
-        <el-tooltip content="密度" placement="top">
+        <el-tooltip
+          content="密度"
+          placement="top"
+        >
           <el-dropdown
             v-if="config.showDensity !== false"
             trigger="click"
@@ -46,15 +52,24 @@
             </el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="large">宽松</el-dropdown-item>
-                <el-dropdown-item command="default">默认</el-dropdown-item>
-                <el-dropdown-item command="small">紧凑</el-dropdown-item>
+                <el-dropdown-item command="large">
+                  宽松
+                </el-dropdown-item>
+                <el-dropdown-item command="default">
+                  默认
+                </el-dropdown-item>
+                <el-dropdown-item command="small">
+                  紧凑
+                </el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
         </el-tooltip>
 
-        <el-tooltip content="列设置" placement="top">
+        <el-tooltip
+          content="列设置"
+          placement="top"
+        >
           <el-popover
             v-if="config.showColumnSetting !== false"
             placement="bottom"
@@ -77,30 +92,36 @@
 </template>
 
 <script setup lang="ts">
-import { Plus, Delete, Refresh, Operation, Setting } from '@element-plus/icons-vue'
-import type { ToolbarConfig } from '../types'
+import {
+  Plus,
+  Delete,
+  Refresh,
+  Operation,
+  Setting,
+} from "@element-plus/icons-vue";
+import type { ToolbarConfig } from "../types";
 
 defineOptions({
-  name: 'CrudToolbar',
-})
+  name: "CrudToolbar",
+});
 
 interface Props {
-  config: ToolbarConfig
-  selectedCount?: number
+  config: ToolbarConfig;
+  selectedCount?: number;
 }
 
 withDefaults(defineProps<Props>(), {
   selectedCount: 0,
-})
+});
 
 const emit = defineEmits<{
-  create: []
-  'batch-delete': []
-  refresh: []
-  'density-change': [size: string]
-}>()
+  create: [];
+  "batch-delete": [];
+  refresh: [];
+  "density-change": [size: string];
+}>();
 
 function handleDensityChange(size: string) {
-  emit('density-change', size)
+  emit("density-change", size);
 }
 </script>

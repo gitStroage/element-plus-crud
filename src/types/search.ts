@@ -1,20 +1,29 @@
 /**
  * 搜索字段类型
  */
-export type SearchFieldType = 'input' | 'select' | 'date-picker' | 'date-range-picker' | 'time-picker' | 'time-select' | 'switch' | 'checkbox' | 'radio'
+export type SearchFieldType =
+  | "input"
+  | "select"
+  | "date-picker"
+  | "date-range-picker"
+  | "time-picker"
+  | "time-select"
+  | "switch"
+  | "checkbox"
+  | "radio";
 
 /**
  * 选项配置
  */
 export interface OptionItem {
   /** 选项标签 */
-  label: string
+  label: string;
   /** 选项值 */
-  value: string | number | boolean
+  value: string | number | boolean;
   /** 是否禁用 */
-  disabled?: boolean
+  disabled?: boolean;
   /** 子选项 */
-  children?: OptionItem[]
+  children?: OptionItem[];
 }
 
 /**
@@ -22,25 +31,25 @@ export interface OptionItem {
  */
 export interface SearchField {
   /** 字段名 */
-  prop: string
+  prop: string;
   /** 字段标签 */
-  label: string
+  label: string;
   /** 字段类型 */
-  type?: SearchFieldType
+  type?: SearchFieldType;
   /** 占位符 */
-  placeholder?: string
+  placeholder?: string;
   /** 默认值 */
-  defaultValue?: any
+  defaultValue?: any;
   /** 选项列表（select、checkbox、radio 使用） */
-  options?: OptionItem[]
+  options?: OptionItem[];
   /** 是否禁用 */
-  disabled?: boolean
+  disabled?: boolean;
   /** 是否可清空 */
-  clearable?: boolean
+  clearable?: boolean;
   /** 样式类名 */
-  className?: string
+  className?: string;
   /** 组件属性透传 */
-  componentProps?: Record<string, any>
+  componentProps?: Record<string, any>;
 }
 
 /**
@@ -48,21 +57,21 @@ export interface SearchField {
  */
 export interface SearchConfig {
   /** 搜索字段列表 */
-  fields: SearchField[]
+  fields: SearchField[];
   /** 是否显示更多按钮 */
-  showMore?: boolean
+  showMore?: boolean;
   /** 更多按钮显示数量 */
-  moreCount?: number
+  moreCount?: number;
   /** 搜索按钮文本 */
-  searchText?: string
+  searchText?: string;
   /** 重置按钮文本 */
-  resetText?: string
+  resetText?: string;
   /** 是否显示搜索按钮 */
-  showSearch?: boolean
+  showSearch?: boolean;
   /** 是否显示重置按钮 */
-  showReset?: boolean
+  showReset?: boolean;
   /** 标签宽度 */
-  labelWidth?: string
+  labelWidth?: string;
   /** 标签位置 */
-  labelPosition?: 'left' | 'right' | 'top'
+  labelPosition?: "left" | "right" | "top";
 }
